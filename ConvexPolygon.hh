@@ -6,10 +6,10 @@
 
 
 class ConvexPolygon {
-
 public:
-	ConvexPolygon();	
-	ConvexPolygon(const vector<Point>);
+
+	ConvexPolygon (const vector<Point>& p(0));
+	ConvexPolygon operator =(vector<Point> r);
 	double area() const;
 	int perimeter() const;
 	int vertices() const;
@@ -17,9 +17,8 @@ public:
 
 
 
-private: 
-
-	vector<Point> p;
+private:
+	vector<Point> v;
 };
 
 #endif

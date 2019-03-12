@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector> 
+#include <vector>
 #include <map>
 #include <cassert>
 using namespace std;
@@ -12,15 +12,16 @@ using namespace std;
 // ************************************************************************************
 
 
-void polygon (map<string, ConvexPolygon>& polygons) {
+void polygon (map<string, ConvexPolygon> polygons) {
     string name;
-    vector<Point> v;
+    ConvexPolygon v;
     cin >> name;
-    Point p;
     double x, y;
+    vector<Point> aux;
     while(cin >> x >> y){
-        v.push_back(Point(x,y));
+        aux.push_back(Point(x,y));
     }
+    v = aux;
     polygons[name] =  v;
 }
 
