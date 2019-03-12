@@ -35,22 +35,14 @@ double ConvexPolygon::perimeter(){
 	return perimeter;
 }
 
-<<<<<<< HEAD
 double ConvexPolygon::area()
 {
-=======
-double ConvexPolygon::area(){
->>>>>>> AP2
     // Initialze area
     double area = 0.0;
     // Calculate value of shoelace formula
     int j = p.size() - 1;
-<<<<<<< HEAD
     for (int i = 0; i < n; i++)
     {
-=======
-    for (int i = 0; i < n; i++){
->>>>>>> AP2
         area += (p[i].get_x() + p[j].get_x()) * (p[i].get_y() - p[j].get_y());
         j = i;  // j is previous vertex to i
     }
