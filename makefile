@@ -2,9 +2,12 @@ CXXFLAGS = -Wall -std=c++11 -O2
 
 all: main.exe
 
+<<<<<<< HEAD
 clean:
 	rm -f main.exe  *.o
 
+=======
+>>>>>>> AP2
 main.exe: main.o Point.o ConvexPolygon.o
 	$(CXX) $^ -o $@
 
