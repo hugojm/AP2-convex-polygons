@@ -12,7 +12,7 @@ using namespace std;
 // ************************************************************************************
 
 
-void polygon (map<string, ConvexPolygon> polygons) {
+void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
     ConvexPolygon v;
     cin >> name;

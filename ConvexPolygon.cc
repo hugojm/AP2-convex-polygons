@@ -22,6 +22,10 @@ ConvexPolygon& ConvexPolygon::operator = (vector<Point> r){
 int ConvexPolygon::vertices(){
 	return v.size();
 }
+int ConvexPolygon::edges(){
+	if (v.size() < 3) return 0;
+	else return v.size();
+}
 
 double ConvexPolygon::perimeter(){
 	double perimeter;
