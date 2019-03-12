@@ -8,7 +8,7 @@
 class ConvexPolygon {
 
 public:
-	ConvexPolygon();	
+	ConvexPolygon();
 	ConvexPolygon(const vector<Point>);
 	double area() const;
 	int perimeter() const;
@@ -17,7 +17,7 @@ public:
 
 
 
-private: 
+private:
 
 	vector<Point> p;
 };
