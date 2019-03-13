@@ -13,15 +13,13 @@ static double dist(const Point &a, const Point& b){
 	return sqrt(dx*dx + dy*dy);
 }
 
-ConvexPolygon::ConvexPolygon(const vector<Point>& p) {
-  v = p;
-}
+ConvexPolygon::ConvexPolygon(const vector<Point>& p): v(p) {}
 
 int ConvexPolygon::vertices() const{
 	return v.size();
 }
 int ConvexPolygon::edges() const {
-	if (v.size() < 3) return 0;
+	if (v.size() < 3) return 1;
 	else return v.size();
 }
 

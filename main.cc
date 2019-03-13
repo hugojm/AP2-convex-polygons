@@ -32,14 +32,24 @@ void print (map<string, ConvexPolygon>& polygons) {
 void area (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    ConvexPolygon c = polygons[name];
-    cout << c.area() << endl;
+    cout << polygons[name].area() << endl;
 }
 void perimeter (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    ConvexPolygon c = polygons[name];
-    cout << c.perimeter() << endl;
+    cout << polygons[name].perimeter() << endl;
+}
+void vertices (map<string, ConvexPolygon>& polygons) {
+    string name;
+    cin >> name;
+    cout << polygons[name].vertices() << endl;
+}
+void list (map<string, ConvexPolygon>& polygons) {
+    for (auto it : polygons){
+      cout << it.first << " ";
+    }
+    cout << endl;
+
 }
 /*void point_get_x (map<string, Point>& points) {
     string name;
