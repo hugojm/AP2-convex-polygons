@@ -14,24 +14,33 @@ using namespace std;
 
 void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
-    ConvexPolygon v;
     cin >> name;
     double x, y;
-    vector<Point> aux;
-    while(cin >> x >> y){
-        aux.push_back(Point(x,y));
+    vector<Point> vp;
+    while(cin >> x >> y and x!= 0){
+        vp.push_back(Point(x,y));
     }
-    v = aux;
-    polygons[name] =  v;
+    polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
 }
+void print (map<string, ConvexPolygon>& polygons) {
+    string name;
+    cin >> name;
+    polygons[name].print();
 
+}
 
 void area (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    polygons[name].area();
+    ConvexPolygon c = polygons[name];
+    cout << c.area() << endl;
 }
-
+void perimeter (map<string, ConvexPolygon>& polygons) {
+    string name;
+    cin >> name;
+    ConvexPolygon c = polygons[name];
+    cout << c.perimeter() << endl;
+}
 /*void point_get_x (map<string, Point>& points) {
     string name;
     cin >> name;
@@ -93,10 +102,11 @@ int main () {
     string action;
     while (cin >> action) {
 /*         if (action == "polygon")             point_def(polygons); */
-        if (action == "polygons")  polygon(polygons);
-        else if (action == "area") area(polygons);
-/*        else if (action == "perimeter")           point_get_y(points);
-        else if (action == "vertices")          point_radius(points);
+        if (action == "polygon")                  polygon(polygons);
+        else if (action == "area")                 area(polygons);
+        else if (action == "print")                print(polygons);
+        else if (action == "perimeter")           perimeter(polygons);
+/*        else if (action == "vertices")          point_radius(points);
         else if (action == "centroid")           point_angle(points);
         else if (action == "save")              point_distance(points);
         else if (action == "load")              point_eq(points);

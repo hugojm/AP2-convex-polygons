@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <vector>
 #include <cassert>
+#include <cmath>
+#include <iostream>
 using namespace std;
 
 
@@ -11,39 +13,41 @@ static double dist(const Point &a, const Point& b){
 	return sqrt(dx*dx + dy*dy);
 }
 
-ConvexPolygon::ConvexPolygon(vector<Point> p) {
+ConvexPolygon::ConvexPolygon(const vector<Point>& p) {
   v = p;
 }
 
-ConvexPolygon& ConvexPolygon::operator = (vector<Point> r){
-	return vector<Point> r;
-}
-
-int ConvexPolygon::vertices(){
+int ConvexPolygon::vertices() const{
 	return v.size();
 }
-int ConvexPolygon::edges(){
+int ConvexPolygon::edges() const {
 	if (v.size() < 3) return 0;
 	else return v.size();
 }
 
-double ConvexPolygon::perimeter(){
-	double perimeter;
-	for(int i=0 ; i < p.size()-1){
-		perimeter += dist(p[i], p[i+1]);
+double ConvexPolygon::perimeter() const{
+	double perimeter = 0.0;
+	for(int i=0 ; i < v.size()-1; i++){
+		perimeter += dist(v[i], v[i+1]);
 	}
 	return perimeter;
 }
-
-double ConvexPolygon::area()
-{
+void ConvexPolygon::print() const{
+	int n = v.size();
+	for (int i = 0; i < n; i ++){
+		cout << v[i].get_x() << " " << v[i].get_y() << " ";
+	}
+	cout << endl;
+}
+double ConvexPolygon::area() const{
     // Initialze area
     double area = 0.0;
     // Calculate value of shoelace formula
-    int j = p.size() - 1;
+    int j = v.size() - 1;
+		int n = v.size();
     for (int i = 0; i < n; i++)
     {
-        area += (p[i].get_x() + p[j].get_x()) * (p[i].get_y() - p[j].get_y());
+        area += (v[i].get_x() + v[j].get_x()) * (v[i].get_y() - v[j].get_y());
         j = i;  // j is previous vertex to i
     }
     // Return absolute value
