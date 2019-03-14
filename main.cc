@@ -1,3 +1,4 @@
+#include <sstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,18 +16,21 @@ using namespace std;
 void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
+    string numbers;
+    getline(cin,numbers);
+    istringstream iss(numbers);
     double x, y;
     vector<Point> vp;
-    while(cin >> x >> y and x!= 0){
+    while(iss >> x >> y){
         vp.push_back(Point(x,y));
     }
     polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
+    cout << "ok" << endl;
 }
 void print (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
     polygons[name].print();
-
 }
 
 void area (map<string, ConvexPolygon>& polygons) {
@@ -49,83 +53,65 @@ void list (map<string, ConvexPolygon>& polygons) {
       cout << it.first << " ";
     }
     cout << endl;
-
 }
-/*void point_get_x (map<string, Point>& points) {
-    string name;
-    cin >> name;
-    cout << points[name].get_x() << endl;
-}
-
-
-void point_get_y (map<string, Point>& points) {
-    string name;
-    cin >> name;
-    cout << points[name].get_y() << endl;
+void setcol (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
+    cout << "ok" << endl;
 }
 
-
-void point_radius (map<string, Point>& points) {
-    string name;
-    cin >> name;
-    cout << points[name].radius() << endl;
+void centroid (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-
-
-void point_angle (map<string, Point>& points) {
-    string name;
-    cin >> name;
-    cout << points[name].angle() << endl;
+void save (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-
-
-void point_distance (map<string, Point>& points) {
-    string name1, name2;
-    cin >> name1 >> name2;
-    cout << points[name1].distance(points[name2]) << endl;
+void load (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-
-
-void point_eq (map<string, Point>& points) {
-    string name1, name2;
-    cin >> name1 >> name2;
-    cout << (points[name1] == points[name2]) << endl;
+void intersection (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-
-
-void point_ne (map<string, Point>& points) {
-    string name1, name2;
-    cin >> name1 >> name2;
-    cout << (points[name1] != points[name2]) << endl;
+void unio (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-
-
-void point_add (map<string, Point>& points) {
-    string name1, name2;
-    cin >> name1 >> name2;
-    points[name1] += points[name2];
+void inside (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
 }
-*/
+void draw (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
+}
+void bbox (map<string, ConvexPolygon>& polygons) {
+    int r,g,b;
+    cin >> r >> g >> b;
+}
 
 int main () {
     map<string, ConvexPolygon> polygons;
     string action;
     while (cin >> action) {
-/*         if (action == "polygon")             point_def(polygons); */
-        if (action == "polygon")                  polygon(polygons);
-        else if (action == "area")                 area(polygons);
-        else if (action == "print")                print(polygons);
-        else if (action == "perimeter")           perimeter(polygons);
-/*        else if (action == "vertices")          point_radius(points);
-        else if (action == "centroid")           point_angle(points);
-        else if (action == "save")              point_distance(points);
-        else if (action == "load")              point_eq(points);
-        else if (action == "union")              point_ne(points);
-        else if (action == "inside")             point_add(points);
-        else if (action == "setcol")              rect_def(points, rects);
-
-        else assert(false);
-*/
-        /** Extend for Circle !!! **/
+        if (action == "polygon")                polygon(polygons);
+        else if (action == "area")              area(polygons);
+        else if (action == "print")             print(polygons);
+        else if (action == "perimeter")         perimeter(polygons);
+        else if (action == "list")              list(polygons);
+        else if (action == "vertices")          vertices(polygons);
+        else if (action == "centroid")          centroid(polygons);
+        else if (action == "save")              save(polygons);
+        else if (action == "load")              load(polygons);
+        else if (action == "intersection")      intersection(polygons);
+        else if (action == "union")             unio(polygons);
+        else if (action == "inside")            inside(polygons);
+        else if (action == "setcol")            setcol(polygons);
+        else if (action == "draw")              draw(polygons);
+        else if (action == "bbox")              bbox(polygons);
+        else cout << "error: unrecognized command" <<  endl;
     }
 }
