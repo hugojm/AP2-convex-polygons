@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <cassert>
+#include <fstream>
 using namespace std;
 
 #include "Point.hh"
@@ -27,6 +28,7 @@ void polygon (map<string, ConvexPolygon>& polygons) {
     polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
     cout << "ok" << endl;
 }
+
 void print (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
@@ -65,12 +67,30 @@ void centroid (map<string, ConvexPolygon>& polygons) {
     cin >> r >> g >> b;
 }
 void save (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  string file;
+  cin >> file;
+  string name;
+  cin >> name;
+  polygons[name].print_load(file,name);
+  cout << "ok" << endl; 
 }
 void load (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  string file;
+  string line;
+  cin >> file;
+  ifstream myfile (file);
+  while(getline(myfile,line)){
+    istringstream iss(line);
+    string name;
+    iss >> name;
+    double x, y;
+    vector<Point> vp;
+    while(iss >> x >> y){
+        vp.push_back(Point(x,y));
+    }
+    polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
+  }
+    cout << "ok" << endl;
 }
 void intersection (map<string, ConvexPolygon>& polygons) {
     int r,g,b;

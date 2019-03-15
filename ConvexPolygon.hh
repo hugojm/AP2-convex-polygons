@@ -19,6 +19,7 @@ public:
 	//Displays a convex polygon
 	void print() const;
 	//Return the point in the center
+	void print_load(string file, string name) const;
 	Point centroid() const;
 
 

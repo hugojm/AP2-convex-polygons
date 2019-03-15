@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -46,13 +47,25 @@ void ConvexPolygon::print() const{
 	cout << endl;
 }
 
+void ConvexPolygon::print_load(string file,string name) const{
+	ofstream myfile;
+  myfile.open(file);
+	int n = v.size();
+	myfile << name << " ";
+	for (int i = 0; i < n; i ++){
+		myfile << v[i].get_x() << " " << v[i].get_y() << " ";
+	}
+	myfile << endl;
+	myfile.close();
+}
+
 double ConvexPolygon::area() const{
     // Initialze area
     double area = 0.0;
 		Point vect;
     for (int i = 2; i < v.size()-1; i++){
 			vect = alt(v[0],v[i]);
-			area+= dist(v[0],v[i])*dist(v[i-1],vect);
+			area+= dist(v[0],v[i])*dist(v[i-1],vect)*0.5;
 		}
 		return area;
 
