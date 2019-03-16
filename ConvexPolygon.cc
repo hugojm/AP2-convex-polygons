@@ -13,11 +13,6 @@ static double dist(const Point &a, const Point& b){
 	double dy = a.get_y() - b.get_y();
 	return sqrt((dx*dx) + (dy*dy));
 }
-static Point alt(const Point &a, const Point& b){
-	double x = (b.get_x() - a.get_x())/2;
-	double y = (b.get_y() - a.get_y())/2;
-	return Point(x,y);
-}
 
 //Constructor
 ConvexPolygon::ConvexPolygon(const vector<Point>& p): v(p) {}
@@ -62,11 +57,11 @@ void ConvexPolygon::print_load(string file,string name) const{
 double ConvexPolygon::area() const{
     // Initialze area
     double area = 0.0;
-		Point vect;
-    for (int i = 2; i < v.size()-1; i++){
-			vect = alt(v[0],v[i]);
-			area+= dist(v[0],v[i])*dist(v[i-1],vect)*0.5;
+		int n = v.size() -1;
+    for (int i = 0; i <= n-1; i++){
+			area+= (v[i].get_x()*v[i+1].get_y() + v[0].get_y()*v[n].get_x()) -
+			(v[i+1].get_x()*v[i].get_y() - v[0].get_x()*v[n].get_y());
 		}
-		return area;
+		return abs(area/2);
 
 }
