@@ -6,7 +6,6 @@
 #include <cassert>
 #include <fstream>
 using namespace std;
-
 #include "Point.hh"
 #include "ConvexPolygon.hh"
 
@@ -57,14 +56,22 @@ void list (map<string, ConvexPolygon>& polygons) {
     cout << endl;
 }
 void setcol (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+    double color;
+    string name; cin >> name;
+    vector<double> rgb(3);
+    for (int i = 0;i < rgb.size(); i++){
+      cin >> color;
+      rgb[i] = color;
+    }
+    polygons[name].setcol(rgb);
     cout << "ok" << endl;
 }
 
 void centroid (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  string name;
+  cin >> name;
+  cout << polygons[name].centroid().get_x() << " "  <<  polygons[name].centroid(
+  ).get_y() << endl;
 }
 void save (map<string, ConvexPolygon>& polygons) {
   string file;
@@ -72,7 +79,7 @@ void save (map<string, ConvexPolygon>& polygons) {
   string name;
   cin >> name;
   polygons[name].print_load(file,name);
-  cout << "ok" << endl; 
+  cout << "ok" << endl;
 }
 void load (map<string, ConvexPolygon>& polygons) {
   string file;
@@ -101,12 +108,21 @@ void unio (map<string, ConvexPolygon>& polygons) {
     cin >> r >> g >> b;
 }
 void inside (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  string name, name2;
+  cin >> name;
+  cin >> name2;
+  cout << polygons[name].inside(polygons[name2]) << endl;
 }
 void draw (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+    string file;
+    cin >> file;
+    string name;
+    getline(cin,name);
+    istringstream iss(name);
+    string name2;
+    while(iss >> name2){
+      polygons[name2].draw(file);
+    }
 }
 void bbox (map<string, ConvexPolygon>& polygons) {
     int r,g,b;
