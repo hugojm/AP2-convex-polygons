@@ -5,13 +5,14 @@
 #include <map>
 #include <cassert>
 #include <fstream>
+#include <pngwriter.h>
+#include <cmath>
 using namespace std;
 #include "Point.hh"
 #include "ConvexPolygon.hh"
 
 
 // ************************************************************************************
-
 
 void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
@@ -74,22 +75,31 @@ void centroid (map<string, ConvexPolygon>& polygons) {
   ).get_y() << endl;
 }
 void save (map<string, ConvexPolygon>& polygons) {
-  string file;
-  cin >> file;
+  string file; cin >> file;
+  string names;
+  getline(cin,names);
+  istringstream iss(names);
   string name;
-  cin >> name;
-  polygons[name].print_load(file,name);
+  ofstream myfile;
+  myfile.open(file);
+  while(iss >> name){
+    int n = polygons[name].vertices();
+  	myfile << name << " ";
+  	for (int i = 0; i < n; i ++){
+  		myfile << polygons[name][i].get_x() << " " << polygons[name][i].get_y() << " ";
+  	}
+    myfile << endl;
+  }
+	myfile.close();
   cout << "ok" << endl;
 }
 void load (map<string, ConvexPolygon>& polygons) {
-  string file;
+  string file;   cin >> file;
   string line;
-  cin >> file;
   ifstream myfile (file);
   while(getline(myfile,line)){
     istringstream iss(line);
-    string name;
-    iss >> name;
+    string name; iss >> name;
     double x, y;
     vector<Point> vp;
     while(iss >> x >> y){
@@ -100,33 +110,55 @@ void load (map<string, ConvexPolygon>& polygons) {
     cout << "ok" << endl;
 }
 void intersection (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+    string name, name2; cin >> name >> name2;
+    polygons[name] = polygons[name].intersection(polygons[name2]);
+    cout << "ok" << endl;
 }
 void unio (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  string name, name2; cin >> name >> name2;
+  polygons[name] = polygons[name].unio(polygons[name2]);
+  cout << "ok" << endl;
 }
+
 void inside (map<string, ConvexPolygon>& polygons) {
-  string name, name2;
-  cin >> name;
-  cin >> name2;
-  cout << polygons[name].inside(polygons[name2]) << endl;
+  string name, name2;  cin >> name >> name2;
+  if(polygons[name].insidepoly(polygons[name2])) cout <<"yes" << endl;
+  else cout << "no" << endl;
 }
 void draw (map<string, ConvexPolygon>& polygons) {
-    string file;
-    cin >> file;
-    string name;
-    getline(cin,name);
+    string file;  cin >> file;
+    string name;  getline(cin,name);
     istringstream iss(name);
     string name2;
+    const int size = 500;
+    pngwriter png(size, size, 1.0 , file.c_str());
     while(iss >> name2){
-      polygons[name2].draw(file);
+      ConvexPolygon v = polygons[name2];
+      //escale the polygon to the center
+      double escalex = abs(ConvexPolygon(v).centroid().get_x()-249);
+      double escaley = abs(ConvexPolygon(v).centroid().get_y()-249);
+    	int n = v.vertices()-1;
+    	for (int i = 0; i < n; i++){
+    		png.line(v[i].get_x()+escalex,v[i].get_y()+escaley,v[i+1].get_x()+escalex,v[i+1].get_y()+escaley,v.getcol(0),v.getcol(1),v.getcol(2));
+    	}
+    	png.line(v[n].get_x()+escalex,v[n].get_y()+escaley,v[0].get_x()+escalex,v[0].get_y()+escaley,v.getcol(0),v.getcol(1),v.getcol(2));
     }
+    png.close();
+    cout << "ok" << endl;
 }
 void bbox (map<string, ConvexPolygon>& polygons) {
-    int r,g,b;
-    cin >> r >> g >> b;
+  ConvexPolygon bbox;
+  string name;
+  cin >> name;
+  string names;
+  getline(cin,name);
+  istringstream iss(names);
+  string input;
+  while(iss >>input){
+    bbox = polygons[input].bbox(bbox);
+  }
+  polygons[name] = bbox;
+
 }
 
 int main () {
