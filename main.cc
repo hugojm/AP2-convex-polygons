@@ -162,6 +162,7 @@ void bbox (map<string, ConvexPolygon>& polygons) {
 }
 
 int main () {
+   co
     map<string, ConvexPolygon> polygons;
     string action;
     while (cin >> action) {

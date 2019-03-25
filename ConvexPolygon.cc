@@ -12,7 +12,8 @@ using namespace std;
 
 //Auxiliar function to sort the vector by x coordinate
 struct myclass {
-    bool operator() (const Point& pt1, const Point&pt2) { return (pt1.get_x() < pt2.get_x());}
+    bool operator() (const Point& pt1, const Point&pt2) { if (pt1.get_x()==pt2.get_x()) return pt1.get_y() < pt2.get_y();
+			else return (pt1.get_x() < pt2.get_x());}
 } myobject;
 //sort vector by x coordinate
 static void sortx(vector<Point>& p){
@@ -113,25 +114,44 @@ static bool leftof(Point p1, Point p2, Point p3) {
 }
 
 //Function to do the ConvexHull vector of points
-static vector<Point> ConvexHull(vector<Point> p){
-	vector<Point> q(p.size());
+static vector<Point> ConvexHull(vector<Point> points){
+	/*vector<Point> q(3);
 	sortx(p);
-	int m = 1;
+	int m = 2;
 	for (int i=0; i <= 2; i++){
 		q[i]=p[i];
 	}
 	int n = p.size();
-	for (int k = 2; k < n; k++){
+	for (int k = 3; k < n; k++){
 		//if the point pk its on the left we have to go back and pop back the last element
 		while (leftof(q[m-1], q[m] , p[k])){
-			m = m - 1;
+			--m;
 			q.pop_back();
 		}
-		m = m+ 1;
-		q[m]=p[k];
+		++m;
+		q.push_back(p[k]);
 	}
-	return q;
+	return q;*/
+	sortx(points);
+  int n = points.size();
+  vector<Point> hull;
+  // Pick the leftmost point
+  int left = 0;
+  for (int i = 1; i < n; i++){
+    if (points[i].get_x() < points[left].get_x()) left = i;
+	}
+  	int p = left;
+  do {
+    hull.push_back(points[p]);  // Add point to the convex hull
+		int q = (p + 1)%n; // Pick a point different from p
+		for (int i = 0; i < n; i++){
+    if (leftof(points[p], points[q], points[i])) q = i;
+	}
+    p = q; // Leftmost point for the convex hull
+  } while (p != left);  // While not closing polygon
+  return hull;
 }
+
 
 //Constructor
 ConvexPolygon::ConvexPolygon(const vector<Point>& p, vector<double> color): v(ConvexHull(p)), rgb(color) {}
@@ -228,7 +248,7 @@ ConvexPolygon ConvexPolygon::intersection (ConvexPolygon p){
 		if(doIntersect(v[i],v[i+1], p[0],p[p.vertices()-1])){
 			inter.push_back(lineintersection(v[i],v[i+1],p[0],p[p.vertices()-1]));
 		}
-		// We compare all the  of 
+		// We compare all the edges of
 			for (int j = 0; j < v.size()-1;  j++){
 				if(doIntersect(v[i],v[i+1], p[j],p[j+1])){
 					inter.push_back(lineintersection(v[i],v[i+1],p[j],p[j+1]));
