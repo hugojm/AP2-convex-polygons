@@ -12,7 +12,7 @@ Primer de tot hem de descargar les llibreries per tal d'utilitzar la nostre func
 
 2. Compileu la llibreria:
 
-`
+```bash
 # entreu al repositori amb el codi font de la llibreria que heu baixat
 cd pngwriter
 
@@ -24,12 +24,12 @@ make
 
 # instal·leu la llibreria
 make install
-`
+```
 Pot ser que en el vostre ordinador no tingueu install el programa cmake o la llibreria libpng, en aquest cas heu de fer el següent:
 
 ## MAC OS X
 Per instal·lar aquests requeriments es recomana utilitzar el brew:
-`
+```bash
 # instal·la brew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
