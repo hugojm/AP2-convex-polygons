@@ -15,10 +15,12 @@ struct myclass {
     bool operator() (const Point& pt1, const Point&pt2) { if (pt1.get_x()==pt2.get_x()) return pt1.get_y() < pt2.get_y();
 			else return (pt1.get_x() < pt2.get_x());}
 } myobject;
+
 //sort vector by x coordinate
 static void sortx(vector<Point>& p){
 	sort(p.begin(),p.end(),myobject);
 }
+
 //funcion to calculate the distance between 2 points
 static double dist(const Point &a, const Point& b){
 	double dx = a.get_x() - b.get_x();
@@ -98,7 +100,7 @@ static Point lineintersection(Point a, Point b, Point c, Point d){
 	    {
 	        // The lines are parallel. This is simplified
 	        // by returning a pair of FLT_MAX
-	        return  0;
+	        assert(false);
 	    }
 	    else
 	    {
@@ -115,23 +117,10 @@ static bool leftof(Point p1, Point p2, Point p3) {
 
 //Function to do the ConvexHull vector of points
 static vector<Point> ConvexHull(vector<Point> points){
-	/*vector<Point> q(3);
-	sortx(p);
-	int m = 2;
-	for (int i=0; i <= 2; i++){
-		q[i]=p[i];
-	}
-	int n = p.size();
-	for (int k = 3; k < n; k++){
-		//if the point pk its on the left we have to go back and pop back the last element
-		while (leftof(q[m-1], q[m] , p[k])){
-			--m;
-			q.pop_back();
-		}
-		++m;
-		q.push_back(p[k]);
-	}
-	return q;*/
+  if (points.size() == 0){
+    return points;
+  }
+  else{
 	sortx(points);
   int n = points.size();
   vector<Point> hull;
@@ -143,15 +132,15 @@ static vector<Point> ConvexHull(vector<Point> points){
   	int p = left;
   do {
     hull.push_back(points[p]);  // Add point to the convex hull
-		int q = (p + 1)%n; // Pick a point different from p
+		int q = (p + 2)%n; // Pick a point different from p
 		for (int i = 0; i < n; i++){
-    if (leftof(points[p], points[q], points[i])) q = i;
+    if (orientation(points[p], points[q], points[i]) == 2) q = i;
 	}
     p = q; // Leftmost point for the convex hull
   } while (p != left);  // While not closing polygon
   return hull;
 }
-
+}
 
 //Constructor
 ConvexPolygon::ConvexPolygon(const vector<Point>& p, vector<double> color): v(ConvexHull(p)), rgb(color) {}
@@ -234,6 +223,7 @@ bool ConvexPolygon::insidepoint (Point p) {
 
 ConvexPolygon ConvexPolygon::intersection (ConvexPolygon p){
 	vector<Point> inter;
+  // if any polygon is inside the other return that polygon
 	if (p.insidepoly(ConvexPolygon(v))) return p;
 	if (ConvexPolygon(v).insidepoly(p)) return ConvexPolygon(v);
 
@@ -245,15 +235,16 @@ ConvexPolygon ConvexPolygon::intersection (ConvexPolygon p){
 		if (p.insidepoint(v[i])){
 			inter.push_back(v[i]);
 		}
+    //Last edge of the COnvex Polygon p
 		if(doIntersect(v[i],v[i+1], p[0],p[p.vertices()-1])){
 			inter.push_back(lineintersection(v[i],v[i+1],p[0],p[p.vertices()-1]));
 		}
-		// We compare all the edges of
+		// We compare all the edges of the 2 polygons
 			for (int j = 0; j < v.size()-1;  j++){
 				if(doIntersect(v[i],v[i+1], p[j],p[j+1])){
 					inter.push_back(lineintersection(v[i],v[i+1],p[j],p[j+1]));
 				}
-
+        //Last edge of the Convex Polygon object
 				if(doIntersect(v[0],v[v.size()], p[j],p[j+1])){
 					inter.push_back(lineintersection(v[0],v[v.size()],p[j],p[j+1]));
 				}
@@ -264,32 +255,38 @@ ConvexPolygon ConvexPolygon::intersection (ConvexPolygon p){
 
 ConvexPolygon ConvexPolygon::unio(ConvexPolygon  p){
 	vector<Point> unio;
+  //The Convex Union is the Convex Hull of the 2 polygons
 	for(int i = 0; i < p.vertices(); i++){
 		v.push_back(p[i]);
 	}
  	return ConvexHull(v);
 }
 
-ConvexPolygon ConvexPolygon::bbox(ConvexPolygon p){
+ConvexPolygon ConvexPolygon::bbox(ConvexPolygon&p){
 	vector<Point> bbox;
-	double minx, miny, maxx, maxy;
-	for(int i = 0; i < v.size(); i++){
-		if (v[i].get_y() > miny) miny = v[i].get_y();
-		if (v[i].get_x() > minx) minx = v[i].get_x();
-		if (v[i].get_y() > maxx) maxx = v[i].get_x();
-		if (v[i].get_x() > maxy) maxy = v[i].get_y();
-	}
-	for(int i = 0; i < p.vertices(); i++){
-		if (p[i].get_y() > miny) miny = p[i].get_y();
-		if (p[i].get_x() > minx) minx = p[i].get_x();
-		if (p[i].get_y() > maxx) maxx = p[i].get_x();
-		if (p[i].get_x() > maxy) maxy = p[i].get_y();
-	}
+	double minx,miny,maxx,maxy;
+  //We compare all the points of the polygons and return the minimum and maximum
+  if (v.size() > 0){
+	   for(int i = 0; i < v.size(); i++){
+		     if (v[i].get_y() < miny) miny = v[i].get_y();
+         if (v[i].get_x() < minx) minx = v[i].get_x();
+		     if (v[i].get_y() > maxx) maxx = v[i].get_x();
+		     if (v[i].get_x() > maxy) maxy = v[i].get_y();
+	            }
+      }
+  if(p.vertices() > 0){
+    for(int i = 0; i < p.vertices(); i++){
+  		if (p[i].get_y() < miny) miny = p[i].get_y();
+  		if (p[i].get_x() < minx) minx = p[i].get_x();
+  		if (p[i].get_y() > maxx) maxx = p[i].get_x();
+  		if (p[i].get_x() > maxy) maxy = p[i].get_y();
+  	}
+  }
  	bbox.push_back(Point(minx,miny));
  	bbox.push_back(Point(minx,maxy));
  	bbox.push_back(Point(maxx,maxy));
  	bbox.push_back(Point(maxx,miny));
-	return bbox;
+	return ConvexPolygon(bbox);
 
 }
 

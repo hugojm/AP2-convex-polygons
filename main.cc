@@ -13,6 +13,11 @@ using namespace std;
 
 
 // ************************************************************************************
+double dist(const Point &a, const Point& b){
+	double dx = a.get_x() - b.get_x();
+	double dy = a.get_y() - b.get_y();
+	return sqrt((dx*dx) + (dy*dy));
+}
 
 void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
@@ -32,33 +37,46 @@ void polygon (map<string, ConvexPolygon>& polygons) {
 void print (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    polygons[name].print();
+    auto it = polygons.find(name);
+    if (it != polygons.end()) polygons[name].print();
+    else cout << "error: undeclared identifier" << endl;
 }
 
 void area (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    cout << polygons[name].area() << endl;
+    auto it = polygons.find(name);
+    if (it != polygons.end()) cout << polygons[name].area() << endl;
+    else cout << "error: undeclared identifier" << endl;
+
 }
 void perimeter (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    cout << polygons[name].perimeter() << endl;
+    auto it = polygons.find(name);
+    if (it != polygons.end()) cout << polygons[name].perimeter() << endl;
+    else cout << "error: undeclared identifier" << endl;
 }
 void vertices (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
-    cout << polygons[name].vertices() << endl;
+    auto it = polygons.find(name);
+    if (it != polygons.end()) cout << polygons[name].vertices() << endl;
+    else cout << "error: undeclared identifier" << endl;
 }
 void list (map<string, ConvexPolygon>& polygons) {
-    for (auto it : polygons){
+    if (polygons.empty()) cout << "error: diccionary is empty" << endl;
+    else {for (auto it : polygons){
       cout << it.first << " ";
     }
     cout << endl;
+    }
 }
 void setcol (map<string, ConvexPolygon>& polygons) {
     double color;
     string name; cin >> name;
+    auto it = polygons.find(name);
+    if (it != polygons.end()){
     vector<double> rgb(3);
     for (int i = 0;i < rgb.size(); i++){
       cin >> color;
@@ -66,6 +84,8 @@ void setcol (map<string, ConvexPolygon>& polygons) {
     }
     polygons[name].setcol(rgb);
     cout << "ok" << endl;
+  }
+    else cout << "error: undeclared identifier" << endl;
 }
 
 void centroid (map<string, ConvexPolygon>& polygons) {
@@ -132,37 +152,48 @@ void draw (map<string, ConvexPolygon>& polygons) {
     string name2;
     const int size = 500;
     pngwriter png(size, size, 1.0 , file.c_str());
+    ConvexPolygon bbox;
+    vector<ConvexPolygon> aux;
     while(iss >> name2){
-      ConvexPolygon v = polygons[name2];
-      //escale the polygon to the center
-      double escalex = abs(ConvexPolygon(v).centroid().get_x()-249);
-      double escaley = abs(ConvexPolygon(v).centroid().get_y()-249);
-    	int n = v.vertices()-1;
-    	for (int i = 0; i < n; i++){
-    		png.line(v[i].get_x()+escalex,v[i].get_y()+escaley,v[i+1].get_x()+escalex,v[i+1].get_y()+escaley,v.getcol(0),v.getcol(1),v.getcol(2));
-    	}
-    	png.line(v[n].get_x()+escalex,v[n].get_y()+escaley,v[0].get_x()+escalex,v[0].get_y()+escaley,v.getcol(0),v.getcol(1),v.getcol(2));
+      aux.push_back(polygons[name2]);
+      bbox = polygons[name2].bbox(bbox);
     }
-    png.close();
-    cout << "ok" << endl;
+    int dx = -bbox[0].get_x();
+    int dy = -bbox[0].get_y();
+    int llarg = max(dist(bbox[0],bbox[1]),dist(bbox[0],bbox[3]));
+    int k = 498/llarg;
+    for (int j = 0; j < aux.size(); j++){
+      ConvexPolygon v = aux[j];
+      int n = v.vertices()-1;
+      for (int i = 0; i < n; i++){
+        png.line((v[i].get_x()+dx)*k+1,(v[i].get_y()+dy)*k+1,(v[i+1].get_x()+dx)*k+1,(v[i+1].get_y()+dy)*k+1,v.getcol(0),v.getcol(1),v.getcol(2));
+      }
+      png.line((v[n].get_x()+dx)*k+1,(v[n].get_y()+dy)*k+1,(v[0].get_x()+dx)*k+1,(v[0].get_y()+dy)*k+1,v.getcol(0),v.getcol(1),v.getcol(2));
+    }
+  png.close();
+  cout << "ok" << endl;
+
 }
+
+
+
 void bbox (map<string, ConvexPolygon>& polygons) {
   ConvexPolygon bbox;
   string name;
   cin >> name;
   string names;
-  getline(cin,name);
+  getline(cin,names);
   istringstream iss(names);
   string input;
   while(iss >>input){
     bbox = polygons[input].bbox(bbox);
   }
-  polygons[name] = bbox;
+  polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(bbox)));
+
 
 }
 
 int main () {
-   co
     map<string, ConvexPolygon> polygons;
     string action;
     while (cin >> action) {

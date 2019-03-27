@@ -36,7 +36,7 @@ public:
 	// returns the union of 2 convex polygons
 	ConvexPolygon unio(ConvexPolygon p);
 	// returns the bbox of 2 convex polygons
-	ConvexPolygon bbox (ConvexPolygon p);
+	ConvexPolygon bbox (ConvexPolygon& p);
 
 
 private:
