@@ -43,9 +43,14 @@ Per ubuntu necessitarem les següents dependències
 `sudo apt install cmake libpng16-tools libpng16-devtools`
 
 Un cop fet tot això ja tindriem el necessari per poder executar el programa sense cap problema. Per fer-ho haurem d'accedir a la carpeta on tinguem el repositori amb els arxiu i executarem a la terminal la comanda:
+
 `make`
+
 Això compilarà els arxius i obtindrem un arxiu executable llest per ser utilitzat.
 Per executar el programa escriurem: 
+
 `./main.exe`
+
 i si volem, per exemple, redirigir un arxiu txt amb les comandes al programa:
+
 `./main.exe < "nom_arxiu".txt
