@@ -1,8 +1,6 @@
-# AP2-convex-polygons
-
 # Convex Polygon class
 
-In this project we want to implement a new class Convex Polygon.
+## Instal·lació dependències
 
 Primer de tot hem de descargar les llibreries per tal d'utilitzar la nostre funció draw.
 
@@ -27,7 +25,7 @@ make install
 ```
 Pot ser que en el vostre ordinador no tingueu install el programa cmake o la llibreria libpng, en aquest cas heu de fer el següent:
 
-## MAC OS X
+### MAC OS X
 Per instal·lar aquests requeriments es recomana utilitzar el brew:
 ```bash
 # instal·la brew
@@ -37,7 +35,7 @@ Per instal·lar aquests requeriments es recomana utilitzar el brew:
 brew install cmake libpng
 ```
 
-## UBUNTU
+### UBUNTU
 Per ubuntu necessitarem les següents dependències
 
 `sudo apt install cmake libpng16-tools libpng16-devtools`
@@ -55,7 +53,7 @@ i si volem, per exemple, redirigir un arxiu txt amb les comandes al programa:
 
 `./main.exe < "nom_arxiu".txt`
 
-# Utilització del programa
+## Utilització del programa
 
 Arribats a aquest punt, estaríem preparats per crear qualsevol polígon i dur una sèrie d'operacions amb ell:
 
