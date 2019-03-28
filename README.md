@@ -35,6 +35,11 @@ Per instal·lar aquests requeriments es recomana utilitzar el brew:
 
 # instal·la cmake i libpng
 brew install cmake libpng
+```
 
+## UBUNTU
+Per ubuntu necessitarem les següents dependències
 
+`sudo apt install cmake libpng16-tools libpng16-devtools`
 
+Un cop fet tot això ja tindriem el necessari per poder executar el programa sense cap problema. Per fer-ho 
