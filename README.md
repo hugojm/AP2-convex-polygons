@@ -63,3 +63,15 @@ Acció | Descripció
 **print** | Donat un nom, escriu el polígon prèviament introduit.
 **area** | Calcula l'àrea del polígon
 **perimeter** | Calcula el perímetre del polígon
+**vertices** | Retorna el nombre de vèrtexs 
+**list** | Mostra la llista de tots els polígons introduits.
+**centroid** | Calcula el centre del polígon
+**save** | Guarda els polígons especificats en un arxiu
+**load** | Agafa polígons d'un arxiu donat
+**intersection** | Crea la intersecció de dos polígons
+**union** | Crea la unió convexa de dos polígons
+**inside** | Retorna si un polígon está dins de l'altre
+**bbox** | Crea la bounding box dels polígons
+**setcol** | Fixa el color del polígon amb els números rgb  
+**draw** | Pinta el polígon en un arxiu donat
+
