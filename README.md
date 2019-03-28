@@ -53,4 +53,13 @@ Per executar el programa escriurem:
 
 i si volem, per exemple, redirigir un arxiu txt amb les comandes al programa:
 
-`./main.exe < "nom_arxiu".txt
+`./main.exe < "nom_arxiu".txt`
+
+# Utilització del programa
+
+Arribats a aquest punt, estaríem preparats per crear qualsevol polígon i dur una sèrie d'operacions amb ell:
+
+1. Polygon: Crea un polygon donat un nom i uns punts.
+1. Print: Donat un nom, escriu el polígon prèviament introduit.
+1. Area:
+1. Perimeter:
