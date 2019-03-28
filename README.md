@@ -61,7 +61,7 @@ Arribats a aquest punt, estaríem preparats per crear qualsevol polígon i dur u
 
 Acció | Descripció
 ----- | ----------
-**Polygon** | Crea un polygon donat un nom i uns punts.
-Print: Donat un nom, escriu el polígon prèviament introduit.
-Area:
-Perimeter:
+**polygon** | Crea un polygon donat un nom i uns punts.
+**print** | Donat un nom, escriu el polígon prèviament introduit.
+**area** | Calcula l'àrea del polígon
+**perimeter** | Calcula el perímetre del polígon
