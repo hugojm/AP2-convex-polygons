@@ -75,3 +75,78 @@ Acció | Descripció
 **setcol** | Fixa el color del polígon amb els números rgb  
 **draw** | Pinta el polígon en un arxiu donat
 
+### Exemple d'utilització
+
+Per exemple si volem introduir en polígon (0,0 0,1 1,1 1,0):
+
+`polygon p 0 0 0 1 1 1 1 0`
+
+I ja tenim introduit el nostre polígon.
+A continuació adjunto unes entrades i el seu output 
+
+<table>
+<tr>
+<td>
+
+```
+# sample script for the polygon calculator
+polygon p1 0 0  0 1  1 1
+print p1
+area p1
+perimeter p1
+vertices p1
+centroid p1
+save file1.txt p1
+load file2.txt
+list
+print p1
+print p2
+print p3
+union p3 p1 p2
+print p3
+inside p1 p3
+setcol p1 1 0 0
+setcol p2 0 1 0
+setcol p3 0 0 1
+draw image.png p1 p2 p3
+bbox p4 p1 p2
+print p4
+# some errors
+foobar
+print p5
+```
+
+</td>
+<td>
+
+```
+#
+ok
+p1 0.000 0.000 0.000 1.000 1.000 1.000
+0.500
+3.414
+3
+0.333 0.667
+ok
+ok
+p1 p2 p3
+p1 0.000 0.000 0.000 1.000 1.000 1.000
+p2 0.000 0.000 1.000 1.000 1.000 0.000
+p3 0.100 0.100
+ok
+p3 0.000 0.000 0.000 1.000 1.000 1.000 1.000 0.000
+yes
+ok
+ok
+ok
+ok
+ok
+p4 0.000 0.000 0.000 1.000 1.000 1.000 1.000 0.000
+#
+error: unrecognized command
+error: undefined identifier
+```
+
+</td>
+</tr>
+</table>
