@@ -53,6 +53,31 @@ i si volem, per exemple, redirigir un arxiu txt amb les comandes al programa:
 
 `./main.exe < "nom_arxiu".txt`
 
+El contingut del makefile és el següent:
+
+```bash
+CXXFLAGS = -Wall -std=c++11 -O2 -DNO_FREETYPE -I $(HOME)/libs/include 
+
+all: main.exe
+
+clean:
+	rm -f main.exe  *.o
+
+main.exe:main.o Point.o ConvexPolygon.o
+	$(CXX) $^ -L $(HOME)/libs/lib -l PNGwriter -l png -o $@
+
+main.o: main.cc Point.hh ConvexPolygon.hh
+
+
+Point.o: Point.cc Point.hh
+
+
+ConvexPolygon.o: ConvexPolygon.cc ConvexPolygon.hh Point.hh
+
+```
+Potser s'ha de cambiar el directori on es troba les llibreries del pngwriter.
+
+
 ## Utilització del programa
 
 Arribats a aquest punt, estaríem preparats per crear qualsevol polígon i dur una sèrie d'operacions amb ell:
@@ -73,7 +98,7 @@ Acció | Descripció
 **inside** | Retorna si un polígon está dins de l'altre
 **bbox** | Crea la bounding box dels polígons
 **setcol** | Fixa el color del polígon amb els números rgb  
-**draw** | Pinta el polígon en un arxiu donat
+**draw** | Pinta els polígons en un arxiu donat
 
 ### Exemple d'utilització
 
