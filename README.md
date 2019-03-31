@@ -75,7 +75,7 @@ Point.o: Point.cc Point.hh
 ConvexPolygon.o: ConvexPolygon.cc ConvexPolygon.hh Point.hh
 
 ```
-Potser s'ha de cambiar el directori on es troba les llibreries del pngwriter.
+**Potser s'ha de cambiar el directori on es troba les llibreries del pngwriter.**
 
 
 ## Utilització del programa
@@ -115,18 +115,15 @@ A continuació adjunto unes entrades i el seu output
 
 ```
 # sample script for the polygon calculator
-polygon p1 0 0  0 1  1 1
-print p1
-area p1
-perimeter p1
-vertices p1
-centroid p1
-save file1.txt p1
-load file2.txt
-list
-print p1
-print p2
+polygon p1 0 0  0 1  1 0 1 1 
+polygon p2 0.5 0 0.5 1 1.5 1 1.5 0
+intersection p3 p1 p2
 print p3
+area p3 
+centroid p3
+save file1.txt p1
+load file.txt
+list
 union p3 p1 p2
 print p3
 inside p1 p3
@@ -137,8 +134,8 @@ draw image.png p1 p2 p3
 bbox p4 p1 p2
 print p4
 # some errors
-foobar
-print p5
+peri
+print p7
 ```
 
 </td>
