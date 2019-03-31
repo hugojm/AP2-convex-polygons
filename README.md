@@ -53,6 +53,8 @@ i si volem, per exemple, redirigir un arxiu txt amb les comandes al programa:
 
 `./main.exe < "nom_arxiu".txt`
 
+### Makefile
+
 El contingut del makefile és el següent:
 
 ```bash
@@ -90,7 +92,7 @@ Acció | Descripció
 **perimeter** | Calcula el perímetre del polígon
 **vertices** | Retorna el nombre de vèrtexs 
 **list** | Mostra la llista de tots els polígons introduits.
-**centroid** | Calcula el centre del polígon
+**centroid** | Calcula el centre del polígon donat
 **save** | Guarda els polígons especificats en un arxiu
 **load** | Agafa polígons d'un arxiu donat
 **intersection** | Crea la intersecció de dos polígons
