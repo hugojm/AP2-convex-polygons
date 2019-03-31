@@ -124,15 +124,15 @@ centroid p3
 save file1.txt p1
 load file.txt
 list
-union p3 p1 p2
-print p3
+union p7 p1 p2
+print p7
 inside p1 p3
 setcol p1 1 0 0
 setcol p2 0 1 0
 setcol p3 0 0 1
 draw image.png p1 p2 p3
-bbox p4 p1 p2
-print p4
+bbox p9 p1 p2
+print p9
 # some errors
 peri
 print p7
@@ -142,31 +142,27 @@ print p7
 <td>
 
 ```
-#
 ok
-p1 0.000 0.000 0.000 1.000 1.000 1.000
+ok
+ok
+p3 0.500 0.000 0.500 1.000 1.000 1.000 1.000 0.000 
 0.500
-3.414
-3
-0.333 0.667
+0.750 0.500
 ok
 ok
-p1 p2 p3
-p1 0.000 0.000 0.000 1.000 1.000 1.000
-p2 0.000 0.000 1.000 1.000 1.000 0.000
-p3 0.100 0.100
+p1 p2 p3 p4 p5 
 ok
-p3 0.000 0.000 0.000 1.000 1.000 1.000 1.000 0.000
-yes
+p7 0.000 0.000 0.000 1.000 1.500 1.000 1.500 0.000 
+no
 ok
 ok
 ok
 ok
 ok
-p4 0.000 0.000 0.000 1.000 1.000 1.000 1.000 0.000
+p9 0.000 0.000 0.000 1.000 1.500 1.000 1.500 0.000 
 #
 error: unrecognized command
-error: undefined identifier
+error: undeclared identifier
 ```
 
 </td>
