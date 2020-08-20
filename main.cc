@@ -7,6 +7,7 @@
 #include <fstream>
 #include <pngwriter.h>
 #include <cmath>
+#include <locale>
 using namespace std;
 #include "Point.hh"
 #include "ConvexPolygon.hh"
@@ -19,6 +20,13 @@ double dist(const Point &a, const Point& b){
 	return sqrt((dx*dx) + (dy*dy));
 }
 
+void coment(){
+  string coment;
+  getline(cin,coment);
+  istringstream iss(coment);
+  cout << "#" << endl;
+}
+
 void polygon (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
@@ -28,17 +36,26 @@ void polygon (map<string, ConvexPolygon>& polygons) {
     double x, y;
     vector<Point> vp;
     while(iss >> x >> y){
-        vp.push_back(Point(x,y));
+     vp.push_back(Point(x,y));
     }
-    polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
+    auto it = polygons.find(name);
+    if (it == polygons.end()) {
+      polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(vp)));
+
+    }
+    else polygons[name] = ConvexPolygon(vp);
     cout << "ok" << endl;
+
 }
 
 void print (map<string, ConvexPolygon>& polygons) {
     string name;
     cin >> name;
     auto it = polygons.find(name);
-    if (it != polygons.end()) polygons[name].print();
+    if (it != polygons.end()) {
+      cout << name << " ";
+      polygons[name].print();
+    }
     else cout << "error: undeclared identifier" << endl;
 }
 
@@ -91,8 +108,11 @@ void setcol (map<string, ConvexPolygon>& polygons) {
 void centroid (map<string, ConvexPolygon>& polygons) {
   string name;
   cin >> name;
-  cout << polygons[name].centroid().get_x() << " "  <<  polygons[name].centroid(
+  auto it = polygons.find(name);
+  if (it != polygons.end()) cout << polygons[name].centroid().get_x() << " "  <<  polygons[name].centroid(
   ).get_y() << endl;
+  else cout << "error: undeclared identifier" << endl;
+
 }
 void save (map<string, ConvexPolygon>& polygons) {
   string file; cin >> file;
@@ -117,6 +137,10 @@ void load (map<string, ConvexPolygon>& polygons) {
   string file;   cin >> file;
   string line;
   ifstream myfile (file);
+  if (!myfile){
+    cout << "Failed to open file" << endl;
+    return;
+  }
   while(getline(myfile,line)){
     istringstream iss(line);
     string name; iss >> name;
@@ -130,20 +154,56 @@ void load (map<string, ConvexPolygon>& polygons) {
     cout << "ok" << endl;
 }
 void intersection (map<string, ConvexPolygon>& polygons) {
-    string name, name2; cin >> name >> name2;
-    polygons[name] = polygons[name].intersection(polygons[name2]);
+  vector<string> name;
+  string names;
+  getline(cin,names);
+  istringstream iss(names);
+  string aux;
+  while(iss >> aux){
+    name.push_back(aux);
+  }
+  if (name.size() == 2){
+    polygons[name[0]] = polygons[name[0]].intersection(polygons[name[1]]);
     cout << "ok" << endl;
+  }
+  else if (name.size() == 3){
+    polygons[name[0]] = polygons[name[1]].intersection(polygons[name[2]]);
+    cout << "ok" << endl;
+  }
+  else cout << "error: undeclared identifier" << endl;
 }
+
 void unio (map<string, ConvexPolygon>& polygons) {
-  string name, name2; cin >> name >> name2;
-  polygons[name] = polygons[name].unio(polygons[name2]);
-  cout << "ok" << endl;
+  vector<string> name;
+  string names;
+  getline(cin,names);
+  istringstream iss(names);
+  string aux;
+  while(iss >> aux){
+    name.push_back(aux);
+  }
+  if (name.size() == 2){
+    polygons[name[0]] = polygons[name[0]].unio(polygons[name[1]]);
+    cout << "ok" << endl;
+  }
+  else if (name.size() == 3){
+    polygons[name[0]] = polygons[name[1]].unio(polygons[name[2]]);
+    cout << "ok" << endl;
+  }
+  else cout << "error: undeclared identifier" << endl;
 }
 
 void inside (map<string, ConvexPolygon>& polygons) {
   string name, name2;  cin >> name >> name2;
-  if(polygons[name].insidepoly(polygons[name2])) cout <<"yes" << endl;
-  else cout << "no" << endl;
+  auto it = polygons.find(name);
+  auto it2 = polygons.find(name2);
+  if (it != polygons.end() &  it2 != polygons.end()){
+    if(polygons[name].insidepoly(polygons[name2])) cout <<"yes" << endl;
+    else cout << "no" << endl;
+  }
+  else cout << "error: undeclared identifier" << endl;
+
+
 }
 void draw (map<string, ConvexPolygon>& polygons) {
     string file;  cin >> file;
@@ -154,14 +214,19 @@ void draw (map<string, ConvexPolygon>& polygons) {
     pngwriter png(size, size, 1.0 , file.c_str());
     ConvexPolygon bbox;
     vector<ConvexPolygon> aux;
+    // We save all the polygons into a vector of Convex Polygons
+    // We do the bbox of all polygons
     while(iss >> name2){
       aux.push_back(polygons[name2]);
       bbox = polygons[name2].bbox(bbox);
     }
+    // We scale all the polygons with the bounding box
     int dx = -bbox[0].get_x();
     int dy = -bbox[0].get_y();
     int llarg = max(dist(bbox[0],bbox[1]),dist(bbox[0],bbox[3]));
     int k = 498/llarg;
+
+    // We print the polygons with the scale
     for (int j = 0; j < aux.size(); j++){
       ConvexPolygon v = aux[j];
       int n = v.vertices()-1;
@@ -189,15 +254,19 @@ void bbox (map<string, ConvexPolygon>& polygons) {
     bbox = polygons[input].bbox(bbox);
   }
   polygons.insert(pair<string,ConvexPolygon>(name,ConvexPolygon(bbox)));
+  cout << "ok" << endl;
 
 
 }
 
 int main () {
+    cout.setf(ios::fixed);
+    cout.precision(3);
     map<string, ConvexPolygon> polygons;
     string action;
     while (cin >> action) {
         if (action == "polygon")                polygon(polygons);
+        else if (action == "#")                      coment();
         else if (action == "area")              area(polygons);
         else if (action == "print")             print(polygons);
         else if (action == "perimeter")         perimeter(polygons);

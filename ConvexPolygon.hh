@@ -22,11 +22,11 @@ public:
 	//Return the point in the center
 	Point centroid() const;
 	// Sets the colours of the polygon
-	void setcol(vector<double> color);
+	void setcol(const vector<double>&color);
 	// Returns true if a polygon is inside an other
-	bool insidepoly (ConvexPolygon p) const;
+	bool insidepoly (const ConvexPolygon& p)const;
 	// The same with Points
-	bool insidepoint (Point p);
+	bool insidepoint (const Point& p)const;
 	// gets the color of the polygon
 	double getcol(int color);
 	// returns the union of 2 convex polygons
@@ -36,7 +36,7 @@ public:
 	// returns the union of 2 convex polygons
 	ConvexPolygon unio(ConvexPolygon p);
 	// returns the bbox of 2 convex polygons
-	ConvexPolygon bbox (ConvexPolygon& p);
+	ConvexPolygon bbox (ConvexPolygon p);
 
 
 private:
