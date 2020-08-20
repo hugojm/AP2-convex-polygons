@@ -1,0 +1,21 @@
+polygon p1 0 0  0 1  1 0 1 1 
+polygon p2 0.5 0 0.5 1 1.5 1 1.5 0
+intersection p3 p1 p2
+print p3
+area p3 
+centroid p3
+save file1.txt p1
+load file.txt
+list
+union p7 p1 p2
+print p7
+inside p1 p3
+setcol p1 1 0 0
+setcol p2 0 1 0
+setcol p3 0 0 1
+draw image.png p1 p2 p3
+bbox p9 p1 p2
+print p9
+# some errors
+peri
+print p8
